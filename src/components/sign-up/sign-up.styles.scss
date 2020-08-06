@@ -1,0 +1,14 @@
+.sign-up {
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+
+  .title {
+    margin: 20px 0;
+  }
+
+  .buttons {
+    display: compact;
+    justify-content: center;
+  }
+}

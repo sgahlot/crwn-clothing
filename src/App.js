@@ -7,7 +7,7 @@ import ShopPage from "./pages/shop/shop.component";
 import './pages/homepage/homepage.styles.scss';
 import Header from "./components/header/header.component";
 import SignInAndSignUpPage from "./pages/sign-in-and-sign-up/sign-in-and-sign-up.component";
-import {auth} from "./firebase/firebase.util";
+import {auth, createUserProfileDoc} from "./firebase/firebase.util";
 
 class App extends Component {
   constructor() {
@@ -21,11 +21,21 @@ class App extends Component {
   unsubscribeFromAuth = null
 
   componentDidMount() {
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(user => {
-      this.setState({currentUser: user});
-
-      console.log(user);
-
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+      if (userAuth) {
+        const userRef = await createUserProfileDoc(userAuth);
+        userRef.onSnapshot(snapshot => {
+          this.setState({
+            currentUser: {
+              id: snapshot.id,
+              ...snapshot.data()
+            }
+          }, () => {
+            console.log(this.state);  // setState is async, hence console.log has to be passed in as 2nd fund
+          })
+        })
+      }
+      this.setState({currentUser: userAuth});
     })
   }
 

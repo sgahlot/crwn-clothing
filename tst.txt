@@ -1,0 +1,27 @@
+-- Promises:
+fetch('https://jsonplaceholder.typicode.com/users')
+    .then(response => response.json())
+    .then(users => {
+        const user = users[0];
+        console.log(user);
+        return fetch('https://jsonplaceholder.typicode.com/posts?userId=' + user.id);
+    })
+    .then(response => response.json())
+    .then(posts => console.log(posts))
+    .catch(err => console.log(err);
+
+
+-- Async await
+const asyncUsersPosts = async () => {
+    try {
+        const userRes = await fetch('https://jsonplaceholder.typicode.com/users');
+        const users = await userRes.json();
+        const user = users[1];
+        console.log(user);
+        const postRes = await fetch('https://jsonplaceholder.typicode.com/posts?userId=' + user.id).json();
+        const posts = await postRes.json();
+        console.log(posts);
+    } catch (err) {
+        console.log(err);
+    }
+}
