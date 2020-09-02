@@ -1,4 +1,4 @@
-import USER_VALS from '../reducer-const';
+import {USER_VALS} from '../reducer-const';
 
 const INITIAL_STATE = {
   currentUser: null
